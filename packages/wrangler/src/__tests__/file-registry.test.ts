@@ -29,8 +29,10 @@ describe("FilesystemWorkerRegistry", () => {
 		vi.useFakeTimers();
 	});
 
-	afterEach(() => {
-		fs.rmSync(tempDir, { recursive: true, force: true });
+	afterEach(async () => {
+		try {
+			fs.rmSync(tempDir, { recursive: true, force: true });
+		} catch (e) {}
 		vi.useRealTimers();
 		vi.restoreAllMocks();
 	});
