@@ -8,7 +8,7 @@ import {
 	convertCfWorkerInitBindingstoBindings,
 	fakeResolvedInput,
 } from "../api/startDevWorker/utils";
-import { bundleWorker } from "../deployment-bundle/bundle";
+import { bundleWorker, shouldCheckFetch } from "../deployment-bundle/bundle";
 import { getBundleType } from "../deployment-bundle/bundle-type";
 import { dedupeModulesByName } from "../deployment-bundle/dedupe-modules";
 import { findAdditionalModules as doFindAdditionalModules } from "../deployment-bundle/find-additional-modules";
@@ -240,6 +240,10 @@ export async function startDevServer(
 		tsconfig: props.tsconfig,
 		minify: props.minify,
 		nodejsCompatMode: props.nodejsCompatMode,
+		checkFetch: shouldCheckFetch(
+			props.compatibilityDate,
+			props.compatibilityFlags
+		),
 		define: props.define,
 		noBundle: props.noBundle,
 		findAdditionalModules: props.findAdditionalModules,
@@ -418,6 +422,7 @@ async function runEsbuild({
 	tsconfig,
 	minify,
 	nodejsCompatMode,
+	checkFetch,
 	define,
 	noBundle,
 	findAdditionalModules,
@@ -443,6 +448,7 @@ async function runEsbuild({
 	tsconfig: string | undefined;
 	minify: boolean | undefined;
 	nodejsCompatMode: NodeJSCompatMode | undefined;
+	checkFetch: boolean;
 	noBundle: boolean;
 	findAdditionalModules: boolean | undefined;
 	testScheduled?: boolean;
@@ -486,7 +492,7 @@ async function runEsbuild({
 					minify,
 					nodejsCompatMode,
 					define,
-					checkFetch: true,
+					checkFetch,
 					mockAnalyticsEngineDatasets,
 					alias,
 					legacyAssets,
