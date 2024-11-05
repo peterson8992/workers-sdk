@@ -2,6 +2,10 @@ import assert from "node:assert";
 import path from "node:path";
 import TOML from "@iarna/toml";
 import { dedent } from "ts-dedent";
+import {
+	CreateApplicationRequest,
+	UserDeploymentConfiguration,
+} from "../cloudchamber/client";
 import { Diagnostics } from "./diagnostics";
 import {
 	all,
@@ -1326,6 +1330,16 @@ function normalizeAndValidateEnvironment(
 			validateCloudchamberConfig,
 			{}
 		),
+		container_app: notInheritable(
+			diagnostics,
+			topLevelEnv,
+			rawConfig,
+			rawEnv,
+			envName,
+			"container_app",
+			validateContainerAppConfig,
+			[]
+		),
 		send_email: notInheritable(
 			diagnostics,
 			topLevelEnv,
@@ -2357,6 +2371,59 @@ const validateBindingArray =
 		}
 		return isValid;
 	};
+
+const validateContainerAppConfig: ValidatorFn = (
+	diagnostics,
+	_field,
+	value
+) => {
+	if (!Array.isArray(value)) {
+		diagnostics.errors.push(
+			`"container_app" should be an array, but got ${JSON.stringify(value)}`
+		);
+		return false;
+	}
+
+	for (const containerApp of value) {
+		const containerAppOptional =
+			containerApp as Partial<CreateApplicationRequest>;
+		if (!isRequiredProperty(containerAppOptional, "instances", "number")) {
+			diagnostics.errors.push(
+				`"container_app.instances" should be defined and an integer`
+			);
+		}
+
+		if (!isRequiredProperty(containerAppOptional, "name", "string")) {
+			diagnostics.errors.push(
+				`"container_app.name" should be defined and a string`
+			);
+		}
+
+		if (!("configuration" in containerAppOptional)) {
+			diagnostics.errors.push(
+				`"container_app.configuration" should be defined`
+			);
+		} else if (Array.isArray(containerAppOptional.configuration)) {
+			diagnostics.errors.push(
+				`"container_app.configuration" is defined as an array, it should be an object`
+			);
+		} else if (
+			!isRequiredProperty(
+				containerAppOptional.configuration as UserDeploymentConfiguration,
+				"image",
+				"string"
+			)
+		) {
+			diagnostics.errors.push(
+				`"container_app.configuration.image" should be defined and a string`
+			);
+		}
+	}
+
+	if (diagnostics.errors.length > 0) return false;
+
+	return true;
+};
 
 const validateCloudchamberConfig: ValidatorFn = (diagnostics, field, value) => {
 	if (typeof value !== "object" || value === null || Array.isArray(value)) {

@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   default:
+    '@vitest/runner':
+      specifier: ~2.1.3
+      version: 2.1.3
+    '@vitest/snapshot':
+      specifier: ~2.1.3
+      version: 2.1.3
     '@vitest/ui':
       specifier: ~2.1.3
       version: 2.1.3
@@ -1696,6 +1702,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      diff:
+        specifier: ^1.1.1
+        version: 1.4.0
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
@@ -1779,6 +1788,9 @@ importers:
       '@types/command-exists':
         specifier: ^1.2.0
         version: 1.2.0
+      '@types/diff':
+        specifier: ^6.0.0
+        version: 6.0.0
       '@types/express':
         specifier: ^4.17.13
         version: 4.17.13
@@ -3624,6 +3636,9 @@ packages:
   '@types/degit@2.8.6':
     resolution: {integrity: sha512-y0M7sqzsnHB6cvAeTCBPrCQNQiZe8U4qdzf8uBVmOWYap5MMTN/gB2iEqrIqFiYcsyvP74GnGD5tgsHttielFw==}
 
+  '@types/diff@6.0.0':
+    resolution: {integrity: sha512-dhVCYGv3ZSbzmQaBSagrv1WJ6rXCdkyTcDyoNu1MD8JohI7pR7k8wdZEm+mvdxRKXyHVwckFzWU1vJc+Z29MlA==}
+
   '@types/dns2@2.0.3':
     resolution: {integrity: sha512-sO14jUYelc2DzwHcCbwp7tZsZfB2x17/zIdHCAeUBINAz2cc36iVFLqCPCB7rn73CzoyoCmpkEnh1rA8C0puPw==}
 
@@ -4864,6 +4879,10 @@ packages:
 
   devtools-protocol@0.0.1182435:
     resolution: {integrity: sha512-EmlkWb62wSbQNE1gRZZsi4KZYRaF5Skpp183LhRU7+sadKR06O1dHCjZmFSEG6Kv7P6S/UYLxcY3NlYwqKM99w==}
+
+  diff@1.4.0:
+    resolution: {integrity: sha512-VzVc42hMZbYU9Sx/ltb7KYuQ6pqAw+cbFWVy4XKdkuEL2CFaRLGEnISPs7YdzaUGpi+CpIqvRmu7hPQ4T7EQ5w==}
+    engines: {node: '>=0.3.1'}
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
@@ -10513,6 +10532,8 @@ snapshots:
 
   '@types/degit@2.8.6': {}
 
+  '@types/diff@6.0.0': {}
+
   '@types/dns2@2.0.3':
     dependencies:
       '@types/node': 18.19.59
@@ -11911,6 +11932,8 @@ snapshots:
   devalue@4.3.2: {}
 
   devtools-protocol@0.0.1182435: {}
+
+  diff@1.4.0: {}
 
   diff@4.0.2: {}
 
